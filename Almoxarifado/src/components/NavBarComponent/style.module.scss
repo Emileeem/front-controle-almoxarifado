@@ -1,0 +1,90 @@
+.nav {
+    position: fixed;
+}
+
+.logo {
+    width: 20%; 
+}
+
+.sair {
+    right: 5%; 
+    position: fixed;
+}
+
+.sairImg {
+    width: 2%;
+    position: fixed;
+    top: 6%; 
+}
+
+.text {
+    right: 6%; 
+    top: 5%;
+    font-size: 30px;
+    font-weight: 600;
+    position: fixed;
+}
+
+@media (max-width: 1200px) {
+    .logo {
+        width: 25%;
+    }
+
+    .sair {
+        right: 7%;
+    }
+
+    .sairImg {
+        width: 3%; 
+        top: 6%; 
+    }
+
+    .text {
+        right: 8%; 
+        top: 6%; 
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        width: 30%; 
+    }
+
+    .sair {
+        right: 10%; 
+    }
+
+    .sairImg {
+        width: 4%; 
+        top: 5%; 
+    }
+
+    .text {
+        right: 11%; 
+        top: 5%; 
+        font-size: 18px; 
+    }
+}
+
+@media (max-width: 400px) {
+    .logo {
+        width: 50%; 
+    }
+
+    .sair {
+        right: 20%;
+    }
+
+    .sairImg {
+        width: 10%; 
+        top: 5%; 
+    }
+
+    .text {
+        right: 21%; 
+        top: 5%; 
+        font-size: 18px;
+    }
+}
+

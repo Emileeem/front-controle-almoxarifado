@@ -1,0 +1,9 @@
+* {
+    font-family: "Arimo", sans-serif;
+}
+
+body {
+    border: 25px solid #172E4D;
+    width: 100%;
+    height: 100vh;
+}
