@@ -3,6 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
 import NavBar from '../components/NavBarComponent/NavBar';
 import styles from "./style.module.scss"
+import SearchButton from '../components/SearchButtonComponent/SearchButton';
 
 export default function Salas() {
     const [showModal, setShowModal] = useState(false);
@@ -23,9 +24,6 @@ export default function Salas() {
         <>
         <NavBar />
             {/* Botão Modal */}
-            <Button variant="primary" onClick={handleOpenModal}>
-                Open Modal
-            </Button>
 
             {/* Modal */}
             <Modal show={showModal} onHide={handleCloseModal}>
@@ -43,6 +41,12 @@ export default function Salas() {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <div className={styles.inicio}>
+                <SearchButton className={styles.barra}/>
+                <Button variant="primary" onClick={handleOpenModal}>
+                    Adicionar +
+                </Button>
+            </div>
         </>
     );
 }
