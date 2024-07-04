@@ -26,27 +26,102 @@ export default function Salas() {
             {/* Botão Modal */}
 
             {/* Modal */}
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header>
-                    <Modal.Title>Modal title</Modal.Title>
+            <Modal show={showModal} onHide={handleCloseModal} className={styles.modal}>
+                <Modal.Header className={styles.titulo}>
+                    <Modal.Title>
+                        Adicionar Sala
+                    </Modal.Title>   
                 </Modal.Header>
 
-                <Modal.Body>
-                    <p>Modal body text goes here.</p>
+                <Modal.Body className={styles.body}>
+                    <b> Nome :</b>
+                    <input type="text" className={styles.input} />
+                    <b> Andar :</b>
+                    <input type="text" className={styles.input} />
+                    <b> Tipo de Sala :</b>
+                    <select name="Tipo de Sala" id="" className={styles.select}>
+                        <option> Selecione </option>
+                        <option > Laboratório </option>
+                        <option > Maker </option>
+                        <option > Sala de Aula </option>
+                    </select>
+
                 </Modal.Body>
 
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleSaveChanges}>
-                        Save changes
+                <Modal.Footer className={styles.salvar}>
+                    <Button variant="primary" onClick={handleSaveChanges}> 
+                        Adicionar
                     </Button>
                 </Modal.Footer>
             </Modal>
             <div className={styles.inicio}>
-                <SearchButton className={styles.barra}/>
-                <Button variant="primary" onClick={handleOpenModal}>
+                <SearchButton />
+                <Button variant="primary" onClick={handleOpenModal} className={styles.botao}>
                     Adicionar +
                 </Button>
             </div>
+            <div className={styles.salas}>
+                <p> Sala 1 - Andar Tal </p>
+                <div className={styles.botoesaq}>
+                    <Button variant="primary" onClick={handleOpenModal} className={styles.botoes}>
+                        Editar
+                    </Button>
+                    <Button variant="danger" onClick={handleOpenModal} className={styles.botoes}>
+                        Excluir
+                    </Button>
+                </div>
+            </div>
+            <hr />
+            <div className={styles.salas}>
+                <p> Sala 1 - Andar Tal </p>
+                <div className={styles.botoesaq}>
+                    <Button variant="primary" onClick={handleOpenModal} className={styles.botoes}>
+                        Editar
+                    </Button>
+                    <Button variant="danger" onClick={handleOpenModal} className={styles.botoes}>
+                        Excluir
+                    </Button>
+                </div>
+            </div>
+            <hr />
+            <div className={styles.salas}>
+                <p> Sala 1 - Andar Tal </p>
+                <div className={styles.botoesaq}>
+                    <Button variant="primary" onClick={handleOpenModal} className={styles.botoes}>
+                        Editar
+                    </Button>
+                    <Button variant="danger" onClick={handleOpenModal} className={styles.botoes}>
+                        Excluir
+                    </Button>
+                </div>
+            </div>
+            <hr />
+            <div className={styles.salas}>
+                <p> Sala 1 - Andar Tal </p>
+                <div className={styles.botoesaq}>
+                    <Button variant="primary" onClick={handleOpenModal} className={styles.botoes}>
+                        Editar
+                    </Button>
+                    <Button variant="danger" onClick={handleOpenModal} className={styles.botoes}>
+                        Excluir
+                    </Button>
+                </div>
+            </div>
+            <hr />
+
+            <div className={styles.salas}>
+                <p> Sala 1 - Andar Tal </p>
+                <div className={styles.botoesaq}>
+                    <Button variant="primary" onClick={handleOpenModal} className={styles.botoes}>
+                        Editar
+                    </Button>
+                    <Button variant="danger" onClick={handleOpenModal} className={styles.botoes}>
+                        Excluir
+                    </Button>
+                </div>
+            </div>
+            <hr />
+
         </>
     );
 }

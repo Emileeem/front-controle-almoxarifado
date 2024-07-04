@@ -6,7 +6,7 @@
     margin: 1%;
 }
 .logo {
-    width: 40%; 
+    width: 20%; 
 }
 
 .sair {
@@ -15,14 +15,20 @@
 }
 
 .sairImg {
-    width: 10%;
+    width: 5%;
     height: 40%;
 }
 
 .text {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
     margin-right: 2%;
+}
+
+@media (max-width: 1300px) {
+    .logo {
+        width: 25%; 
+    }
 }
 
 @media (max-width: 768px) {

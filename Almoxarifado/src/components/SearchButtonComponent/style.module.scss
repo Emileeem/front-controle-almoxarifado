@@ -10,9 +10,34 @@
 }
 
 .barraPesquisa {
-    width: 30%;
+    width: 35%;
     background-color: #D9D9D9;
     height: 44px;
     border-radius: 15px;
     border: 0px;
+    padding-left: 30px;
+    outline: none;
+}
+
+
+
+@media (max-width: 768px) {
+    .barraPesquisa {
+        width: 70%;
+   }
+
+   .busca {
+        width: 10%;
+        left: 10%;
+   }
+}
+
+@media (max-width: 400px) {
+   .barraPesquisa {
+        width: 90%;
+   }
+
+   .busca {
+       display: none;
+   }
 }
