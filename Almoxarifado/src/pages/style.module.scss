@@ -53,7 +53,7 @@
 .salas {
     display: flex;
     justify-content: space-between;
-    margin: 2%;
+    // margin: 2%;
     font-size: 20px;
     align-items: center;
 }
@@ -82,7 +82,7 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 440px) {
    .inicio {
         display: flex;
         flex-direction: column;
@@ -91,6 +91,10 @@
    .botao {
         width: 60%;
         margin: 2%;
+    }
+
+    .botoesaq {
+        flex-direction: column;
     }
 }
 
