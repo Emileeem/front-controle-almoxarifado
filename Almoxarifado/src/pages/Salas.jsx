@@ -11,6 +11,7 @@ export default function Salas() {
     const [tipoSala, setTipoSala] = useState("");
     const [tiposSalaOptions, setTiposSalaOptions] = useState([]);
     const [salas, setSalas] = useState([]);
+
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -49,27 +50,27 @@ export default function Salas() {
                 console.error('Erro ao buscar salas:', error);
             }
         }
-    
+        
         fetchTiposSala();
         fetchSalas();
     }, []); ;
-
+    
     const handleOpenModal = (salaId) => {
         setShowModal(true);
-        // Aqui você pode adicionar lógica para pré-popular o modal com os dados da sala usando o salaId, se necessário
-    };
 
+    };
+    
     const handleCloseModal = () => {
         setShowModal(false);
     };
-
+    
     const handleCadastro = async () => {
         const sala = {
             nome: nome,
             andar: andar,
             tipoSala: tipoSala
         };
-
+        
         try {
             const response = await fetch('http://localhost:3000/api/sala/', {
                 method: 'POST',
@@ -81,7 +82,7 @@ export default function Salas() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Sala cadastrada:', data);
-                // Atualizar a lista de salas após o cadastro
+    
                 handleCloseModal();
             } else {
                 console.error('Erro ao cadastrar sala:', response.statusText);
@@ -98,7 +99,6 @@ export default function Salas() {
             });
             if (response.ok) {
                 console.log('Sala excluída com sucesso.');
-                // Atualizar a lista de salas após a exclusão
                 fetchSalas();
             } else {
                 console.error('Erro ao excluir sala:', response.statusText);
@@ -107,7 +107,6 @@ export default function Salas() {
             console.error('Erro ao excluir sala:', error);
         }
     };
-
     return (
         <>
             <NavBar />
@@ -156,20 +155,22 @@ export default function Salas() {
             </div>
 
             <section>
-                {salas.map((sala) => (
-                    <div key={sala.id} className={styles.salas}>
-                        <p>{sala.nome} - {sala.andar}</p>
-                        <div className={styles.botoesaq}>
-                            <Button variant="primary" onClick={() => handleOpenModal(sala.id)} className={styles.botoes}>
-                                Editar
-                            </Button>
-                            <Button variant="danger" onClick={() => handleExcluirSala(sala.id)} className={styles.botoes}>
-                                Excluir
-                            </Button>
+                {salas.map((item) => (
+                    <div key={item.ID}>
+                        <div className={styles.salas}>
+                            <p>{item.Nome} - {item.Andar}</p>
+                            <div className={styles.botoesaq}>
+                                <Button variant="primary" onClick={() => handleOpenModal(item.ID)} className={styles.botoes}>
+                                    Editar
+                                </Button>
+                                <Button variant="danger" onClick={() => handleExcluirSala(item.ID)} className={styles.botoes}>
+                                    Excluir
+                                </Button>
+                            </div>
                         </div>
+                        <hr />
                     </div>
                 ))}
-                <hr />
             </section>
         </>
     );
