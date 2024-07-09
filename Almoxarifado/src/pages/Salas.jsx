@@ -8,6 +8,8 @@ import swal from 'sweetalert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import filtro from "../../public/filter.png"
+
 export default function Salas() {
     const [nome, setNome] = useState("");
     const [andar, setAndar] = useState("");
@@ -16,6 +18,25 @@ export default function Salas() {
     const [salas, setSalas] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [editandoSala, setEditandoSala] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredSalas, setFilteredSalas] = useState([]);
+    const [tipoFiltro, setTipoFiltro] = useState('');
+
+    const handleTipoFiltroChange = (event) => {
+        setTipoFiltro(event.target.value);
+    };
+
+    const filterSalas = (term, tipoFiltro) => {
+        const filtered = salas.filter(sala =>
+            sala.Nome.toLowerCase().includes(term.toLowerCase()) &&
+            (tipoFiltro === '' || sala.TipoSalaID === Number(tipoFiltro))
+        );
+        setFilteredSalas(filtered);
+    };
+
+    useEffect(() => {
+        filterSalas(searchTerm, tipoFiltro);
+    }, [searchTerm, tipoFiltro, salas]);
 
     const fetchTiposSala = async () => {
         try {
@@ -163,21 +184,21 @@ export default function Salas() {
                 <Modal.Body className={styles.body}>
                     <form>
                         <b> Nome :</b>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             required
-                            className={styles.input} 
-                            value={nome} 
-                            onChange={(e) => setNome(e.target.value)} 
+                            className={styles.input}
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
                         />
                         <b> Andar :</b>
 
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             required
-                            className={styles.input} 
-                            value={andar} 
-                            onChange={(e) => setAndar(e.target.value)} 
+                            className={styles.input}
+                            value={andar}
+                            onChange={(e) => setAndar(e.target.value)}
                         />
 
                         <b> Tipo de Sala :</b>
@@ -206,26 +227,49 @@ export default function Salas() {
             </Modal>
 
             <div className={styles.inicio}>
-                <SearchButton />
+                <div className={styles.divSearch}>
+                    <SearchButton setSearchTerm={setSearchTerm} />
+                    <div className={styles.dropdown}>
+                        <select
+                            value={tipoFiltro}
+                            onChange={handleTipoFiltroChange}
+                            className={styles.select}
+                        >
+                            <option value="">Todos</option>
+                            {tiposSalaOptions.map((tipoSala) => (
+                                <option key={tipoSala.ID} value={tipoSala.ID}>
+                                    {tipoSala.Nome}
+                                </option>
+                            ))}
+                        </select>
+                        <img
+                            src={filtro}
+                            alt="filtro"
+                            className={styles.filtro}
+                        />
+                    </div>
+                </div>
                 <Button variant="primary" onClick={() => handleOpenModal()} className={styles.botao}>
                     Adicionar +
                 </Button>
             </div>
 
             <section>
-                {salas.map((item) => (
+                {filteredSalas.map((item) => (
                     <div key={item.ID}>
-                        <div className={styles.salas}>
-                            <p>{item.Nome} - {item.Andar}</p>
-                            <div className={styles.botoesaq}>
-                                <Button variant="primary" onClick={() => handleOpenModal(item)} className={styles.botoes}>
-                                    Editar
-                                </Button>
-                                <Button variant="danger" onClick={() => handleExcluirSala(item.ID)} className={styles.botoes}>
-                                    Excluir
-                                </Button>
+                        {tipoFiltro === '' || item.TipoSalaID === Number(tipoFiltro) ? (
+                            <div className={styles.salas}>
+                                <p>{item.Nome} - {item.Andar}</p>
+                                <div className={styles.botoesaq}>
+                                    <Button variant="primary" onClick={() => handleOpenModal(item)} className={styles.botoes}>
+                                        Editar
+                                    </Button>
+                                    <Button variant="danger" onClick={() => handleExcluirSala(item.ID)} className={styles.botoes}>
+                                        Excluir
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
+                        ) : null}
                         <hr />
                     </div>
                 ))}

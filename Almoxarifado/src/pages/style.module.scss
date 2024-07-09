@@ -1,9 +1,48 @@
 .inicio {
-    margin-top: 2%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    margin: 1%;
+}
+
+.divSearch {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.select {
+    padding: 8px 20px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    appearance: none; 
+    width: auto; 
+    max-width: 200px; 
+}
+
+.filtro {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: auto; 
+    cursor: pointer;
+}
+
+.filtro {
+    width: 30px;
 }
 
 .botao {
