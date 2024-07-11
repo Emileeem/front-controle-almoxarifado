@@ -5,7 +5,8 @@
     align-items: center;
 }
 .logo {
-    width: 13%; 
+    width: 18%; 
+    padding: 2%;
 }
 
 .sair {
@@ -32,7 +33,7 @@
 
 @media (max-width: 768px) {
     .logo {
-        width: 50%; 
+        width: 30%; 
     }
 
     .sairImg {
