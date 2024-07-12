@@ -18,20 +18,19 @@ export default function Funcionarios() {
     const [filteredFuncionarios, setFilteredFuncionarios] = useState([]);
     const [tipoFiltro, setTipoFiltro] = useState('');
 
-    // Campos do formulário
     const [formValues, setFormValues] = useState({
         nome: "",
         matricula: "",
-        tipoFuncionario: "",
-        cep: "",
-        bairro: "",
-        numero: "",
-        complemento: "",
-        email: "",
         senha: "",
-        uf: "",
-        cidade: "",
-        rua: ""
+        endereco: {
+            cep: "",
+            cidade: "",
+            bairro: "",
+            rua: "",
+            complemento: "",
+            uf: "",
+        },
+        tipoFuncionarioID: ""  // Renomeado para tipoFuncionarioID
     });
 
     useEffect(() => {
@@ -48,12 +47,15 @@ export default function Funcionarios() {
     };
 
     const filterFuncionarios = (term, tipoFiltro) => {
+        console.log(funcionarios)
         const filtered = funcionarios.filter(funcionario =>
-            funcionario.nome.toLowerCase().includes(term.toLowerCase()) &&
-            (tipoFiltro === '' || funcionario.tipoFuncionario === Number(tipoFiltro))
+            funcionario.Nome.toLowerCase().includes(term.toLowerCase()) &&
+            (tipoFiltro === '' || funcionario.TipoFuncionarioID === Number(tipoFiltro))
         );
+        console.log('Funcionários filtrados:', filtered); 
         setFilteredFuncionarios(filtered);
     };
+    
 
     const fetchTiposFuncionario = async () => {
         try {
@@ -78,10 +80,13 @@ export default function Funcionarios() {
             const response = await fetch('http://localhost:3000/api/funcionario/');
             if (response.ok) {
                 const data = await response.json();
+                console.log('Dados recebidos da API:', data); 
+    
                 if (data && data.data) {
                     setFuncionarios(data.data);
+                    filterFuncionarios(searchTerm, tipoFiltro); // Chama o filtro após atualizar funcionarios
                 } else {
-                    console.error('Resposta inválida da API de funcionários:', data);
+                    console.error('Resposta da API de funcionários vazia:', data);
                 }
             } else {
                 console.error('Erro ao buscar funcionários:', response.statusText);
@@ -90,6 +95,9 @@ export default function Funcionarios() {
             console.error('Erro ao buscar funcionários:', error);
         }
     };
+    
+    
+    
 
     const handleOpenModal = (funcionario) => {
         if (funcionario) {
@@ -97,32 +105,31 @@ export default function Funcionarios() {
             setFormValues({
                 nome: funcionario.nome,
                 matricula: funcionario.matricula,
-                tipoFuncionario: funcionario.tipoFuncionario,
-                cep: funcionario.cep,
-                bairro: funcionario.bairro,
-                numero: funcionario.numero,
-                complemento: funcionario.complemento,
-                email: funcionario.email,
-                senha: funcionario.senha,
-                uf: funcionario.uf,
-                cidade: funcionario.cidade,
-                rua: funcionario.rua
+                tipoFuncionarioID: funcionario.tipoFuncionarioID,  // Ajustado para tipoFuncionarioID
+                endereco: {
+                    cep: funcionario.endereco.cep,
+                    cidade: funcionario.endereco.cidade,
+                    bairro: funcionario.endereco.bairro,
+                    rua: funcionario.endereco.rua,
+                    complemento: funcionario.endereco.complemento,
+                    uf: funcionario.endereco.uf,
+                },
             });
         } else {
             setEditandoFuncionario(null);
             setFormValues({
                 nome: "",
                 matricula: "",
-                tipoFuncionario: "",
-                cep: "",
-                bairro: "",
-                numero: "",
-                complemento: "",
-                email: "",
-                senha: "",
-                uf: "",
-                cidade: "",
-                rua: ""
+                tipoFuncionarioID: "",  // Ajustado para tipoFuncionarioID
+                endereco: {
+                    cep: "",
+                    cidade: "",
+                    bairro: "",
+                    complemento: "",
+                    uf: "",
+                    rua: "",
+                },
+                senha: ""
             });
         }
         setShowModal(true);
@@ -130,54 +137,69 @@ export default function Funcionarios() {
 
     function pesquisacep(value) {
         console.log("CEP pesquisado:", value);
-    
+
         fetch(`https://viacep.com.br/ws/${value}/json/`)
             .then(response => response.json())
             .then(data => {
                 console.log("Resposta do CEP:", data);
-    
+
                 setFormValues({
                     ...formValues,
-                    bairro: data.bairro,
-                    uf: data.uf,
-                    cidade: data.localidade,
-                    rua: data.logradouro
+                    endereco: {
+                        ...formValues.endereco,
+                        bairro: data.bairro,
+                        uf: data.uf,
+                        cidade: data.localidade,
+                        rua: data.logradouro
+                    }
                 });
-    
+
             })
             .catch(error => {
                 console.error("Erro ao buscar CEP:", error);
             });
     }
-    
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormValues({
-            ...formValues,
-            [name]: value
-        });
+        if (name.startsWith("endereco.")) {
+            // If the field is part of nested object 'endereco'
+            setFormValues({
+                ...formValues,
+                endereco: {
+                    ...formValues.endereco,
+                    [name.split(".")[1]]: value
+                }
+            });
+        } else {
+            setFormValues({
+                ...formValues,
+                [name]: value
+            });
+        }
     };
 
     const handleCadastro = async () => {
         const funcionario = {
             nome: formValues.nome,
             matricula: formValues.matricula,
-            tipoFuncionario: formValues.tipoFuncionario,
-            cep: formValues.cep,
-            bairro: formValues.bairro,
-            numero: formValues.numero,
-            complemento: formValues.complemento,
-            email: formValues.email,
             senha: formValues.senha,
-            uf: formValues.uf,
-            cidade: formValues.cidade,
-            rua: formValues.rua
-            // Adicione outros campos do funcionário aqui conforme necessário
+            endereco: {
+                cep: formValues.endereco.cep,
+                cidade: formValues.endereco.cidade,
+                bairro: formValues.endereco.bairro,
+                rua: formValues.endereco.rua,
+                complemento: formValues.endereco.complemento,
+                uf: formValues.endereco.uf,
+            },
+            tipoFuncionarioID: formValues.tipoFuncionarioID  // Ajustado para tipoFuncionarioID
         };
+
+        console.log('Funcionário a ser cadastrado:', funcionario);
 
         let url = 'http://localhost:3000/api/funcionario/';
         let method = 'POST';
@@ -187,6 +209,7 @@ export default function Funcionarios() {
             method = 'PUT';
         }
 
+        console.log('Dados do funcionário a serem enviados:', funcionario);
         try {
             const response = await fetch(url, {
                 method: method,
@@ -195,6 +218,9 @@ export default function Funcionarios() {
                 },
                 body: JSON.stringify(funcionario)
             });
+
+            console.log('Status da resposta:', response.status);
+
             if (response.ok) {
                 const data = await response.json();
                 console.log(`Funcionário ${editandoFuncionario ? 'editado' : 'cadastrado'}:`, data);
@@ -276,15 +302,7 @@ export default function Funcionarios() {
                                 value={formValues.matricula}
                                 onChange={handleInputChange}
                             />
-                            <b> Email :</b>
-                            <input
-                                type="text"
-                                name="email"
-                                required
-                                className={styles.input}
-                                value={formValues.email}
-                                onChange={handleInputChange}
-                            />
+
                             <b> Senha :</b>
                             <input
                                 type="password"
@@ -296,10 +314,10 @@ export default function Funcionarios() {
                             />
                             <b> Tipo de Funcionário :</b>
                             <select
-                                name="tipoFuncionario"
-                                id="tipoFuncionario"
+                                name="tipoFuncionarioID"  // Ajustado para tipoFuncionarioID
+                                id="tipoFuncionarioID"
                                 className={styles.select}
-                                value={formValues.tipoFuncionario}
+                                value={formValues.tipoFuncionarioID}
                                 onChange={handleInputChange}
                             >
                                 <option value="">Selecione</option>
@@ -314,20 +332,20 @@ export default function Funcionarios() {
                             <b> Cep :</b>
                             <input
                                 type="text"
-                                name="cep"
+                                name="endereco.cep"
                                 required
                                 className={styles.input}
-                                value={formValues.cep}
+                                value={formValues.endereco.cep}
                                 onChange={handleInputChange}
                                 onBlur={(e) => pesquisacep(e.target.value)}
                             />
                             <b> Bairro :</b>
                             <input
                                 type="text"
-                                name="bairro"
+                                name="endereco.bairro"
                                 required
                                 className={styles.input}
-                                value={formValues.bairro}
+                                value={formValues.endereco.bairro}
                                 onChange={handleInputChange}
                             />
                             <div className={styles.numComp}>
@@ -338,18 +356,16 @@ export default function Funcionarios() {
                                 <div className={styles.numCompInput}>
                                     <input
                                         type="text"
-                                        name="numero"
+                                        name="endereco.numero"  // Ajustado para endereco.numero
                                         required
                                         className={styles.inputT}
-                                        value={formValues.numero}
-                                        onChange={handleInputChange}
                                     />
                                     <input
                                         type="text"
-                                        name="complemento"
+                                        name="endereco.complemento"
                                         required
                                         className={styles.input2}
-                                        value={formValues.complemento}
+                                        value={formValues.endereco.complemento}
                                         onChange={handleInputChange}
                                     />
                                 </div>
@@ -362,30 +378,30 @@ export default function Funcionarios() {
                                     <div className={styles.ufCityInput}>
                                         <input
                                             type="text"
-                                            name="uf"
+                                            name="endereco.uf"
                                             required
                                             className={styles.input}
-                                            value={formValues.uf}
+                                            value={formValues.endereco.uf}
                                             onChange={handleInputChange}
                                         />
                                         <input
                                             type="text"
-                                            name="cidade"
+                                            name="endereco.cidade"
                                             required
                                             className={styles.input}
-                                            value={formValues.cidade}
+                                            value={formValues.endereco.cidade}
                                             onChange={handleInputChange}
                                         />
                                     </div>
-                                    
+
                                     <b> Rua :</b>
 
                                     <input
                                         type="text"
-                                        name="rua"
+                                        name="endereco.rua"
                                         required
                                         className={styles.input}
-                                        value={formValues.rua}
+                                        value={formValues.endereco.rua}
                                         onChange={handleInputChange}
                                     />
                                 </div>
@@ -430,11 +446,12 @@ export default function Funcionarios() {
             </div>
 
             <section>
+                {console.log(filteredFuncionarios)}
                 {filteredFuncionarios.map((item) => (
                     <div key={item.ID}>
-                        {tipoFiltro === '' || item.tipoFuncionario === Number(tipoFiltro) ? (
-                            <div className={styles.funcionarios}>
-                                <p>{item.nome} - {item.matricula}</p>
+                        {tipoFiltro === '' || item.tipoFuncionarioID === Number(tipoFiltro) ? (
+                            <div className={styles.salas}>
+                                <p><b>Funcionário:</b>   {item.Nome} - <b> N° Matricula: </b>  {item.Matricula}</p>
                                 <div className={styles.botoesaq}>
                                     <Button variant="primary" onClick={() => handleOpenModal(item)} className={styles.botoes}>
                                         Editar

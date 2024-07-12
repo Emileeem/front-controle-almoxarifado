@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 
-// import Salas from "./pages/Salas";
 import Funcionarios from './pages/AdicionarFuncionarios/Funcionarios';
+// import Salas from './pages/AdicionarSalas/Salas'
 
 function App() {
 

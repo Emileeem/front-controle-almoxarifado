@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import NavBar from '../components/NavBarComponent/NavBar';
+import NavBar from '../../components/NavBarComponent/NavBar';
 import styles from "./style.module.scss";
-import SearchButton from '../components/SearchButtonComponent/SearchButton';
+import SearchButton from '../../components/SearchButtonComponent/SearchButton';
 import swal from 'sweetalert';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import filtro from "../../public/filter.png"
+import filtro from "../../../public/filter.png"
 
 export default function Salas() {
     const [nome, setNome] = useState("");
