@@ -84,7 +84,7 @@ export default function Salas() {
             setEditandoSala(sala);
             setNome(sala.Nome);
             setAndar(sala.Andar);
-            setTipoSala(sala.TipoSalaID); // supondo que o ID do tipo de sala é TipoSalaID
+            setTipoSala(sala.TipoSalaID); 
         } else {
             setEditandoSala(null);
             setNome("");

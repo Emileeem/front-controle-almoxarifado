@@ -105,7 +105,7 @@ export default function Funcionarios() {
             setFormValues({
                 nome: funcionario.nome,
                 matricula: funcionario.matricula,
-                tipoFuncionarioID: funcionario.tipoFuncionarioID,  // Ajustado para tipoFuncionarioID
+                tipoFuncionarioID: funcionario.TipoFuncionarioID,  
                 endereco: {
                     cep: funcionario.endereco.cep,
                     cidade: funcionario.endereco.cidade,
@@ -120,7 +120,7 @@ export default function Funcionarios() {
             setFormValues({
                 nome: "",
                 matricula: "",
-                tipoFuncionarioID: "",  // Ajustado para tipoFuncionarioID
+                TipoFuncionarioID: "", 
                 endereco: {
                     cep: "",
                     cidade: "",
@@ -167,7 +167,6 @@ export default function Funcionarios() {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         if (name.startsWith("endereco.")) {
-            // If the field is part of nested object 'endereco'
             setFormValues({
                 ...formValues,
                 endereco: {
@@ -196,7 +195,7 @@ export default function Funcionarios() {
                 complemento: formValues.endereco.complemento,
                 uf: formValues.endereco.uf,
             },
-            tipoFuncionarioID: formValues.tipoFuncionarioID  // Ajustado para tipoFuncionarioID
+            tipoFuncionarioID: formValues.tipoFuncionarioID  
         };
 
         console.log('Funcionário a ser cadastrado:', funcionario);
@@ -449,7 +448,7 @@ export default function Funcionarios() {
                 {console.log(filteredFuncionarios)}
                 {filteredFuncionarios.map((item) => (
                     <div key={item.ID}>
-                        {tipoFiltro === '' || item.tipoFuncionarioID === Number(tipoFiltro) ? (
+                        {tipoFiltro === '' || item.TipoFuncionarioID === Number(tipoFiltro) ? (
                             <div className={styles.salas}>
                                 <p><b>Funcionário:</b>   {item.Nome} - <b> N° Matricula: </b>  {item.Matricula}</p>
                                 <div className={styles.botoesaq}>
