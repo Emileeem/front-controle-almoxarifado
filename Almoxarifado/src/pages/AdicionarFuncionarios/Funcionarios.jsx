@@ -105,14 +105,14 @@ export default function Funcionarios() {
             setFormValues({
                 nome: funcionario.nome,
                 matricula: funcionario.matricula,
-                tipoFuncionarioID: funcionario.TipoFuncionarioID,  
+                TipoFuncionarioID: funcionario.TipoFuncionarioID,  
                 endereco: {
-                    cep: funcionario.endereco.cep,
-                    cidade: funcionario.endereco.cidade,
-                    bairro: funcionario.endereco.bairro,
-                    rua: funcionario.endereco.rua,
-                    complemento: funcionario.endereco.complemento,
-                    uf: funcionario.endereco.uf,
+                    cep: funcionario.cep,
+                    cidade: funcionario.cidade,
+                    bairro: funcionario.bairro,
+                    rua: funcionario.rua,
+                    complemento: funcionario.complemento,
+                    uf: funcionario.uf,
                 },
             });
         } else {
